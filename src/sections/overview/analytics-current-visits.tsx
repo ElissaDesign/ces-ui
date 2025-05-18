@@ -25,7 +25,7 @@ type Props = CardProps & {
   };
 };
 
-export function AnalyticsCurrentVisits({ title, subheader, chart, sx, ...other }: Props) {
+export function AnalyticsResponseRate({ title, subheader, chart, sx, ...other }: Props) {
   const theme = useTheme();
 
   const chartSeries = chart.series.map((item) => item.value);

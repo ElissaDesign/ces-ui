@@ -19,7 +19,7 @@ const role = GetCurrentUser()?.role;
 export const n_avData = [
   {
     title: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: icon('ic-analytics'),
   },
   {
@@ -63,17 +63,17 @@ export const n_avData = [
 const allNavData = [
   {
     title: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: icon('ic-analytics'),
   },
   {
     title: 'User',
-    path: '/user',
+    path: '/dashboard/user',
     icon: icon('ic-user'),
   },
   {
     title: 'Agency',
-    path: '/agencies',
+    path: '/dashboard/agencies',
     icon: icon('ic-cart'),
     info: (
       <Label color="error" variant="inverted">
@@ -83,12 +83,12 @@ const allNavData = [
   },
   {
     title: 'Tags',
-    path: '/tags',
+    path: '/dashboard/tags',
     icon: icon('ic-user'),
   },
   {
     title: 'Tickets',
-    path: '/tickets',
+    path: '/dashboard/tickets',
     icon: icon('ic-blog'),
   },
   {

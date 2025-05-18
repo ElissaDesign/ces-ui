@@ -5,7 +5,7 @@ import { mergeClasses } from 'minimal-shared/utils';
 
 import Link from '@mui/material/Link';
 import { Typography } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
 
@@ -26,7 +26,7 @@ export function Logo({
   isSingle = true,
   ...other
 }: LogoProps) {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   // const gradientId = useId();
 

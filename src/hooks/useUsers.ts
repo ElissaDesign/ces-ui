@@ -26,7 +26,7 @@ export const useLogin = () => useMutation({
       localStorage.setItem('token', token);
       localStorage.setItem('data', JSON.stringify(user));
       // Optionally redirect or trigger toast
-      window.location.href = '/';
+      window.location.href = '/dashboard';
     },
     onError: (error: any) => {
       // Optionally handle errors globally or via toast

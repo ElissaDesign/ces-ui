@@ -9,6 +9,10 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
+import { useUsers } from 'src/hooks/useUsers';
+
+import { generateUsers } from 'src/utils/utls';
+
 import { _users } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
@@ -26,13 +30,22 @@ import type { UserProps } from '../user-table-row';
 
 // ----------------------------------------------------------------------
 
-export function UserView() {
+export function UserView() 
+
+{
   const table = useTable();
 
   const [filterName, setFilterName] = useState('');
 
+
+  const { data, isLoading, isError } = useUsers();
+  const users: any =data;
+
+  console.log('data', data, isLoading, isError);
+
+
   const dataFiltered: UserProps[] = applyFilter({
-    inputData: _users,
+    inputData: generateUsers(users?.data),
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -87,7 +100,7 @@ export function UserView() {
                 }
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
+                  { id: 'agency', label: 'Agency' },
                   { id: 'role', label: 'Role' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },

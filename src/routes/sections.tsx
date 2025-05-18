@@ -1,17 +1,18 @@
 import type { RouteObject } from 'react-router';
 
 import { lazy, Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
 import { varAlpha } from 'minimal-shared/utils';
+import { Outlet , Navigate} from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 import { AuthLayout } from 'src/layouts/auth';
+import { AuthGuard } from 'src/guards/AuthGuard';
 import { DashboardLayout } from 'src/layouts/dashboard';
 
 // ----------------------------------------------------------------------
-
+export const LandingPage = lazy(() => import('src/pages/landing'));
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
@@ -40,16 +41,29 @@ const renderFallback = () => (
 );
 
 export const routesSection: RouteObject[] = [
-  {
+   {
+    index: true,
     element: (
-      <DashboardLayout>
-        <Suspense fallback={renderFallback()}>
-          <Outlet />
-        </Suspense>
-      </DashboardLayout>
+      <Suspense fallback={renderFallback()}>
+        <AuthLayout>
+          <LandingPage />
+        </AuthLayout>
+      </Suspense>
+    ),
+  },
+  {
+    path: 'dashboard',
+    element: (
+      <AuthGuard>
+        <DashboardLayout>
+          <Suspense fallback={renderFallback()}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+      </AuthGuard>
     ),
     children: [
-      { index: true, element: <DashboardPage /> },
+      { index:true, element: <DashboardPage /> },
       { path: 'user', element: <UserPage /> },
       { path: 'agencies', element: <ProductsPage /> },
       { path: 'tags', element: <BlogPage /> },
@@ -68,5 +82,8 @@ export const routesSection: RouteObject[] = [
     path: '404',
     element: <Page404 />,
   },
-  { path: '*', element: <Page404 /> },
+  {
+    path: '*',
+    element: <Navigate to="/404" replace />,
+  },
 ];

@@ -105,24 +105,6 @@ export const _products = [...Array(24)].map((_, index) => {
 
 // ----------------------------------------------------------------------
 
-export const _langs = [
-  {
-    value: 'en',
-    label: 'English',
-    icon: '/assets/icons/flags/ic-flag-en.svg',
-  },
-  {
-    value: 'de',
-    label: 'German',
-    icon: '/assets/icons/flags/ic-flag-de.svg',
-  },
-  {
-    value: 'fr',
-    label: 'French',
-    icon: '/assets/icons/flags/ic-flag-fr.svg',
-  },
-];
-
 // ----------------------------------------------------------------------
 
 export const _timeline = [...Array(5)].map((_, index) => {return {
@@ -171,8 +153,8 @@ export const _tasks = Array.from({ length: 5 }, (_, index) => {return {
 export const _notifications = [
   {
     id: _id(1),
-    title: 'Your order is placed',
-    description: 'waiting for shipping',
+    title: 'You have pending tickets',
+    description: 'waiting for support',
     avatarUrl: null,
     type: 'order-placed',
     postedAt: _times(1),
@@ -181,7 +163,7 @@ export const _notifications = [
   {
     id: _id(2),
     title: _fullName(2),
-    description: 'answered to your comment on the Minimal',
+    description: 'answered to your comment on the CES UI',
     avatarUrl: '/assets/images/avatar/avatar-2.webp',
     type: 'friend-interactive',
     postedAt: _times(2),
@@ -199,7 +181,7 @@ export const _notifications = [
   {
     id: _id(4),
     title: 'You have new mail',
-    description: 'sent from Guido Padberg',
+    description: 'sent from Mbarushimana',
     avatarUrl: null,
     type: 'mail',
     postedAt: _times(4),
@@ -207,8 +189,8 @@ export const _notifications = [
   },
   {
     id: _id(5),
-    title: 'Delivery processing',
-    description: 'Your order is being shipped',
+    title: 'Ticket processing',
+    description: 'Your ticket is being processed',
     avatarUrl: null,
     type: 'order-shipped',
     postedAt: _times(5),

@@ -52,7 +52,7 @@ if (!email?.trim() || !password?.trim()) {
         fullWidth
         name="email"
         label="Email address"
-        defaultValue="admin@ces.com"
+        placeholder='email'
         onChange={(e) => setEmail(e.target.value)}
         sx={{ mb: 3 }}
         slotProps={{
@@ -68,7 +68,7 @@ if (!email?.trim() || !password?.trim()) {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="admin123"
+        defaultValue=""
         onChange={(e) => setPassword(e.target.value)}
         type={showPassword ? 'text' : 'password'}
         slotProps={{

@@ -6,8 +6,9 @@
 
 - [Dashboard](link.)
 - [Users](link/users)
-- [Products](link/products)
-- [Blog](link/blog)
+- [Agency](link/agency)
+- [Tags](link/tags)
+- [Tickets](link/tickets)
 - [Sign in](link/sign-in)
 - [Not found](link/404)
 

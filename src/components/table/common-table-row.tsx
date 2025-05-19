@@ -64,7 +64,7 @@ export function CommonTableRow({ row, selected, onSelectRow, columns, actions }:
               sx: { width: 140 },
             }}
           >
-            {actions.map((action) => (
+            {actions.map((action: any) => (
               <MenuItem
                 key={action.label}
                 onClick={() => {

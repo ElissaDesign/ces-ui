@@ -42,6 +42,7 @@ export function AddAgencyForm({ tags }: AgencyRegisterFormProps) {
         });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [formData, addAgency]
   );
 

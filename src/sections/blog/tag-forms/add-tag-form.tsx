@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useState } from 'react';
 
 import { Button } from '@mui/material';
@@ -49,6 +50,7 @@ export function AddTagForm() {
         });
     }
     
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [formData, addTag]);
 
     return (

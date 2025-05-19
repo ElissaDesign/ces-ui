@@ -1,6 +1,7 @@
+import { toast } from 'react-toastify';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-import { fetchUsers } from 'src/api/users';
+import { fetchUsers, register } from 'src/api/users';
 
 import { login } from '../api/auth';
 
@@ -29,11 +30,23 @@ export const useLogin = () => useMutation({
       window.location.href = '/dashboard';
     },
     onError: (error: any) => {
-      // Optionally handle errors globally or via toast
+      toast.error('Login failed: ' + (error.response?.data?.message || error.message));
       console.error('Login failed:', error.response?.data || error.message);
-      alert('Login failed: ' + (error.response?.data?.message || error.message));
+    
     },
   });
+
+
+export const useRegister = () => useMutation({
+  mutationFn: register,
+  onSuccess: () => {
+    toast.success('User registered successfully!');
+  },
+  onError: (error: any) => {
+    toast.error(error.message || 'Failed to register user');
+    
+  },
+});
 
 
 

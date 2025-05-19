@@ -6,12 +6,26 @@ export interface User {
   lastName: string;
   email: string;
   role: string;
-  agencyId?: number;
+  agency: string;
 
 }
+
 interface LoginData {
   email: string;
   password: string;
+}
+
+interface RegisterData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  agency?: string;
+}
+
+interface registerResponse {
+  message: string;
+  data: User;
 }
 
 export const login = async (data: LoginData): Promise<{ token: string, user: object }> => {
@@ -19,6 +33,11 @@ export const login = async (data: LoginData): Promise<{ token: string, user: obj
   const response = await axios.post('/auth/login', data);
   return response.data;
 };
+
+export const register = async (data: RegisterData): Promise<registerResponse> => {
+  const response = await axios.post('/users', data);
+  return response.data;
+}
 
 
 export const fetchUsers = async (): Promise<User[]> => {

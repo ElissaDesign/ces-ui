@@ -8,58 +8,61 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 
-import { useUsers } from 'src/hooks/useUsers';
-import { useAgency } from 'src/hooks/useAgency';
-
-import { generateUsers } from 'src/utils/utls';
-
-import { _users } from 'src/_mock';
+import { useTags } from 'src/hooks/useTags';
 import { DashboardContent } from 'src/layouts/dashboard';
-
 import MuiDialog from 'src/components/Dialog';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-
-import { TableNoData } from '../table-no-data';
-import { UserTableRow } from '../user-table-row';
-import { UserTableHead } from '../user-table-head';
-import { TableEmptyRows } from '../table-empty-rows';
-import { UserRegisterForm } from '../userRegisterForm';
-import { UserTableToolbar } from '../user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../utils';
-
-import type { UserProps } from '../user-table-row';
+import { CommonTableHead } from 'src/components/table/common-table-head';
+import { CommonTableRow } from 'src/components/table/common-table-row';
+import { CommonTableToolbar } from 'src/components/table/common-table-toolbar';
+import { CommonTableNoData } from 'src/components/table/common-table-no-data';
+import { emptyRows, applyFilter, getComparator } from 'src/components/table/table-utils';
+import { AddTagForm } from '../tag-forms/add-tag-form';
 
 // ----------------------------------------------------------------------
 
-export function UserView() {
-  const table = useTable();
+type TagProps = {
+  id?: string;
+  name: string;
+};
 
+export function TagsView() {
+  const table = useTable();
   const [filterName, setFilterName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+
   const handleClickOpen = () => {
     setIsOpen(true);
   };
+
   const handleClose = () => {
     setIsOpen(false);
   };
 
-  const { data, isLoading, isError } = useUsers();
-  const { data: agencyData } = useAgency();
-  
-  const agency: string[] = agencyData ? agencyData?.data.map((a: any) => a.name) : [];
-  const users: any = data;
+  const { data: tags, isLoading, isError } = useTags();
 
-  console.log('data', data, isLoading, isError);
-
-  const dataFiltered: UserProps[] = applyFilter({
-    inputData: generateUsers(users?.data),
-    comparator: getComparator(table.order, table.orderBy),
+  const dataFiltered = applyFilter({
+    inputData: (tags?.data || []).map((tag) => ({
+      ...tag,
+      id: tag.id !== undefined ? String(tag.id) : undefined,
+    })),
+    comparator: getComparator<TagProps>(table.order, table.orderBy as keyof TagProps),
     filterName,
   });
 
   const notFound = !dataFiltered.length && !!filterName;
+
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (isError) {
+    return <Typography color="error">Error loading tags</Typography>;
+  }
 
   return (
     <DashboardContent>
@@ -71,7 +74,7 @@ export function UserView() {
         }}
       >
         <Typography variant="h4" sx={{ flexGrow: 1 }}>
-          Users
+          Tags Management
         </Typography>
         <Button
           variant="contained"
@@ -79,13 +82,13 @@ export function UserView() {
           onClick={handleClickOpen}
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          New user
+          New Tag
         </Button>
 
         <MuiDialog
           open={isOpen}
           onClose={handleClose}
-          title="Register New User"
+          title="Add New Tag"
           maxWidth="md"
           fullWidth
           actions={
@@ -94,42 +97,41 @@ export function UserView() {
             </>
           }
         >
-          <UserRegisterForm agencies={agency}/>
+          <AddTagForm />
         </MuiDialog>
       </Box>
 
       <Card>
-        <UserTableToolbar
+        <CommonTableToolbar
           numSelected={table.selected.length}
           filterName={filterName}
-          onFilterName={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onFilterName={(event) => {
             setFilterName(event.target.value);
             table.onResetPage();
           }}
+          placeholder="Search tags..."
         />
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
-              <UserTableHead
+            <Table sx={{ minWidth: 600 }}>
+              <CommonTableHead
                 order={table.order}
                 orderBy={table.orderBy}
-                rowCount={users?.data.length}
+                rowCount={tags?.data?.length || 0}
                 numSelected={table.selected.length}
                 onSort={table.onSort}
                 onSelectAllRows={(checked) =>
                   table.onSelectAllRows(
                     checked,
-                    users?.data.map((user: UserProps) => user.id)
+                    tags?.data
+                      ?.map((tag) => (tag.id !== undefined ? String(tag.id) : undefined))
+                      .filter((id): id is string => typeof id === 'string') || []
                   )
                 }
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'agency', label: 'Agency' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: '' },
+                  { id: 'actions', label: 'Actions', align: 'right' }, // Added align right here
                 ]}
               />
               <TableBody>
@@ -139,20 +141,55 @@ export function UserView() {
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
                   .map((row) => (
-                    <UserTableRow
+                    <CommonTableRow
                       key={row.id}
                       row={row}
-                      selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
+                      selected={table.selected.includes(row.id ?? '')}
+                      onSelectRow={() => table.onSelectRow(row.id ?? '')}
+                      columns={[
+                        { id: 'name' },
+                        { id: 'actions', align: 'right' }, // Added align right here
+                      ]}
+                      actions={[
+                        {
+                          label: 'Edit',
+                          icon: 'eva:edit-fill',
+                          onClick: (row) => {
+                            // Handle edit
+                            console.log('Edit', row);
+                          },
+                        },
+                        {
+                          label: 'Delete',
+                          icon: 'eva:trash-2-outline',
+                          color: 'error.main',
+                          onClick: (row) => {
+                            // Handle delete
+                            console.log('Delete', row);
+                          },
+                        },
+                      ]}
                     />
                   ))}
 
-                <TableEmptyRows
-                  height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, users?.data.length)}
-                />
+                {notFound && (
+                  <CommonTableNoData
+                    searchQuery={filterName}
+                    colspan={3} // Updated to 3 to account for checkbox, name, and actions columns
+                    message="No tags found matching your search criteria."
+                  />
+                )}
 
-                {notFound && <TableNoData searchQuery={filterName} />}
+                {!notFound && (
+                  <TableRow
+                    style={{
+                      height:
+                        53 * emptyRows(table.page, table.rowsPerPage, tags?.data?.length || 0),
+                    }}
+                  >
+                    <TableCell colSpan={3} /> {/* Updated to 3 */}
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -161,7 +198,7 @@ export function UserView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={users?.data.length}
+          count={tags?.data?.length || 0}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}
@@ -174,7 +211,21 @@ export function UserView() {
 
 // ----------------------------------------------------------------------
 
-export function useTable() {
+interface UseTableReturn {
+  page: number;
+  order: 'asc' | 'desc';
+  orderBy: string;
+  selected: string[];
+  rowsPerPage: number;
+  onSort: (id: string) => void;
+  onSelectRow: (id: string) => void;
+  onResetPage: () => void;
+  onChangePage: (event: unknown, newPage: number) => void;
+  onSelectAllRows: (checked: boolean, newSelecteds: string[]) => void;
+  onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function useTable(): UseTableReturn {
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState('name');
   const [rowsPerPage, setRowsPerPage] = useState(5);

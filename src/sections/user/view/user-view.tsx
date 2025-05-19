@@ -14,7 +14,6 @@ import { useAgency } from 'src/hooks/useAgency';
 
 import { generateUsers } from 'src/utils/utls';
 
-import { _users } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import MuiDialog from 'src/components/Dialog';
@@ -89,9 +88,7 @@ export function UserView() {
           maxWidth="md"
           fullWidth
           actions={
-            <>
-              <Button onClick={handleClose}>Cancel</Button>
-            </>
+            <Button onClick={handleClose}>Cancel</Button>
           }
         >
           <UserRegisterForm agencies={agency}/>

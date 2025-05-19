@@ -29,20 +29,20 @@ export function UserRegisterForm({ agencies }: UserRegisterFormProps) {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setFormData((prevData) => ({
+        setFormData((prevData) => {return {
             ...prevData,
             [name]: value,
-        }));
-        setErrors((prev) => ({ ...prev, [name]: false }));
+        }});
+        setErrors((prev) => {return { ...prev, [name]: false }});
     };
 
     const handleSelectChange = (event: SelectChangeEvent) => {
         const { name, value } = event.target;
-        setFormData((prevData) => ({
+        setFormData((prevData) => {return {
             ...prevData,
             [name]: value,
-        }));
-        setErrors((prev) => ({ ...prev, [name]: false }));
+        }});
+        setErrors((prev) => {return { ...prev, [name]: false }});
     };
 
     const roles = ['MANAGER', 'ADMIN'];

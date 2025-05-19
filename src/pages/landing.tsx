@@ -1,10 +1,7 @@
-import React from 'react';
 import {
   Box,
   Button,
   Typography,
-  AppBar,
-  Toolbar,
   Container,
   Card,
   CardContent,
@@ -19,9 +16,6 @@ import {
 } from '@mui/material';
 import {
   ExpandMore,
-  QuestionAnswer,
-  ContactSupport,
-  Dashboard,
   Search,
   Email,
   Person,
@@ -29,7 +23,6 @@ import {
   Phone,
   Home,
 } from '@mui/icons-material';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 const faqData = [
   {
@@ -75,37 +68,11 @@ const contactDetails = [
 
 export default function LandingPageView() {
   return (
-    <DashboardContent maxWidth="xl">
-      {/* App Bar */}
-      <AppBar position="static" color="default" elevation={1}>
-        <Toolbar>
-          <Typography
-            variant="h6"
-            sx={{ flexGrow: 1, fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
-          >
-            <Dashboard sx={{ mr: 1 }} /> ENGAGE
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button color="inherit" href="#intro" startIcon={<Home />}>
-              Home
-            </Button>
-            <Button color="inherit" href="#faqs" startIcon={<QuestionAnswer />}>
-              FAQs
-            </Button>
-            <Button color="inherit" href="#contact" startIcon={<ContactSupport />}>
-              Contact
-            </Button>
-            <Button variant="contained" color="primary" href="/sign-in">
-              Sign In
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-
+    <Box maxWidth="lg" sx={{ mx: 'auto', mt: -8, mb: 4 }}>
       {/* Introduction */}
       <Box
         id="intro"
-        sx={{ py: 10, background: 'linear-gradient(to bottom right, #f5f7fa, #e4e8ef)' }}
+        sx={{ py: 4, background: 'linear-gradient(to bottom right, #f5f7fa, #e4e8ef)' }}
       >
         <Container>
           <Grid container spacing={4} alignItems="center">
@@ -261,14 +228,6 @@ export default function LandingPageView() {
         </Container>
       </Box>
 
-      {/* Footer */}
-      <Box sx={{ py: 3, backgroundColor: '#1976d2', color: 'white' }}>
-        <Container>
-          <Typography variant="body2" align="center">
-            © {new Date().getFullYear()} Engage | Connecting Citizens with Government
-          </Typography>
-        </Container>
-      </Box>
-    </DashboardContent>
+    </Box>
   );
 }

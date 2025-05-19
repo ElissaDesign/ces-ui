@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import { Button, SelectChangeEvent } from '@mui/material';
-import { Stack, TextField, MenuItem, Select, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { Button } from '@mui/material';
+import { Stack, TextField } from '@mui/material';
 
 import { useAddTag } from 'src/hooks/useTags';
 
@@ -22,11 +22,11 @@ export function AddTagForm() {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setFormData((prevData) => ({
+        setFormData((prevData) => {return {
             ...prevData,
             [name]: value,
-        }));
-        setErrors((prev) => ({ ...prev, [name]: false }));
+        }});
+        setErrors((prev) => {return { ...prev, [name]: false }});
     };
 
 

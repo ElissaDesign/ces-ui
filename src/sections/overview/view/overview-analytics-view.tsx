@@ -3,9 +3,7 @@ import Typography from '@mui/material/Typography';
 
 import { useAnaytics } from 'src/hooks/useAnalytics';
 
-import { Analytics } from 'src/api/analytics';
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _posts, _tasks, _traffic, _timeline } from 'src/_mock';
 
 import { AnalyticsResponseRate } from '../analytics-current-visits';
 import { AnalyticsWidgetSummary } from '../analytics-widget-summary';

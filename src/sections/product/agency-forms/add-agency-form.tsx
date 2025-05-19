@@ -19,13 +19,11 @@ export function AddAgencyForm({ tags }: AgencyRegisterFormProps) {
   const { mutate: addAgency, isPending } = useAddAgency();
 
   // Validation function
-  const validate = () => {
-    return (
+  const validate = () => (
       formData.name.trim() !== '' &&
       formData.description.trim() !== '' &&
       formData.tags.length > 0
     );
-  };
 
   const handleSubmit = useCallback(
     (e?: React.FormEvent) => {

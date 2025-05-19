@@ -46,10 +46,10 @@ export function TagsView() {
   const { data: tags, isLoading, isError } = useTags();
 
   const dataFiltered = applyFilter({
-    inputData: (tags?.data || []).map((tag) => ({
+    inputData: (tags?.data || []).map((tag) => {return {
       ...tag,
       id: tag.id !== undefined ? String(tag.id) : undefined,
-    })),
+    }}),
     comparator: getComparator<TagProps>(table.order, table.orderBy as keyof TagProps),
     filterName,
   });
@@ -92,9 +92,7 @@ export function TagsView() {
           maxWidth="md"
           fullWidth
           actions={
-            <>
-              <Button onClick={handleClose}>Cancel</Button>
-            </>
+            <Button onClick={handleClose}>Cancel</Button>
           }
         >
           <AddTagForm />

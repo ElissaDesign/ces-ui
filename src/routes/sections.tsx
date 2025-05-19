@@ -45,7 +45,10 @@ export const routesSection: RouteObject[] = [
     index: true,
     element: (
       <Suspense fallback={renderFallback()}>
-          <LandingPage />
+              <AuthLayout>
+                <LandingPage />
+                </AuthLayout>
+
       </Suspense>
     ),
   },

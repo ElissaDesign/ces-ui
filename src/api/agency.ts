@@ -1,4 +1,3 @@
-import { tags } from './../../node_modules/@emotion/styled/src/tags';
 import axios from '../lib/axios';
 
 export interface Agency {

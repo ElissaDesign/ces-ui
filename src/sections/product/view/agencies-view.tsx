@@ -53,10 +53,10 @@ export function AgenciesView() {
 
 
   const dataFiltered = applyFilter({
-    inputData: (agencies?.data || []).map((agency) => ({
+    inputData: (agencies?.data || []).map((agency) => {return {
       ...agency,
       id: agency.id !== undefined ? String(agency.id) : undefined,
-    })),
+    }}),
     comparator: getComparator<AgencyProps>(table.order, table.orderBy as keyof AgencyProps),
     filterName,
   });
@@ -93,9 +93,7 @@ export function AgenciesView() {
           maxWidth="md"
           fullWidth
           actions={
-            <>
-              <Button onClick={handleClose}>Cancel</Button>
-            </>
+            <Button onClick={handleClose}>Cancel</Button>
           }
         >
           <AddAgencyForm tags={tagNames}/>
